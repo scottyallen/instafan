@@ -1,0 +1,3 @@
+python-gflags<3.0
+ipython
+selenium
