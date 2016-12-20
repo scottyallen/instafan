@@ -1,3 +1,4 @@
+import re
 import time
 import utils
 
@@ -78,11 +79,17 @@ class User(object):
   def is_logged_in(self):
     utils.get(self.browser, 'https://www.instagram.com/', force=True)
     e = self.browser.find_elements_by_link_text('Profile')
-    return e and e[0].get_attribute('href').endswith(self.username + '/')
+    return e
+
+  def current_user(self):
+    utils.get(self.browser, 'https://www.instagram.com/')
+    e = self.browser.find_elements_by_link_text('Profile')
+    return utils.extract_username(e[0].get_attribute('href'))
 
   def login(self, password):
     print 'Logging in...'
     utils.get(self.browser, 'https://www.instagram.com/accounts/login/')
+
 
     self.browser.find_element_by_name('username').send_keys(self.username)
     self.browser.find_element_by_name('password').send_keys(password)
@@ -92,8 +99,15 @@ class User(object):
         expected_conditions.title_is('Instagram')
     )
 
+  def logout(self):
+    print "Logging out..."
+    self.browser.delete_all_cookies()
+
   def maybe_login(self, password):
-    if not self.is_logged_in():
+    if not self.is_logged_in() or self.current_user() != self.username:
+      print "Current user: %s" % self.current_user()
+      if self.current_user != self.username:
+        self.logout()
       self.login(password)
       if self.is_logged_in():
         print 'Successfully logged in'
