@@ -35,3 +35,10 @@ def load_cookies(b, filename, domain):
     cookie = json.loads(line.strip())
     if domain in cookie['domain']:
       b.add_cookie(cookie)
+
+def load_credentials(filename):
+  credentials = {}
+  for line in open(filename):
+    k, v = [x.strip() for x in line.split('=')]
+    credentials[k.lower()] = v
+  return credentials['username'], credentials['password']

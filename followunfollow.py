@@ -15,15 +15,8 @@ gflags.DEFINE_string('credentials', None,
                      'Login credentials.  Filename for file with USERNAME= and PASSWORD= on separate lines')
 FLAGS = gflags.FLAGS
 
-def load_credentials(filename):
-  credentials = {}
-  for line in open(filename):
-    k, v = [x.strip() for x in line.split('=')]
-    credentials[k.lower()] = v
-  return credentials['username'], credentials['password']
-
 def main(argv):
-  USERNAME, PASSWORD = load_credentials(FLAGS.credentials)
+  USERNAME, PASSWORD = utils.load_credentials(FLAGS.credentials)
   b = webdriver.Chrome()
   b.implicitly_wait(5)
 
