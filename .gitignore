@@ -3,3 +3,7 @@ node_modules
 .*
 *.pyc
 virtualenv
+*_credentials
+cookies.json
+to_follow
+*_following
