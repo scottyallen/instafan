@@ -48,7 +48,7 @@ def main(argv):
 
     while True:
       print "Following %d out of %d" % (len(following()), len(follow_set))
-      if random.random() < 0.6:
+      if random.random() < 0.6 and not_following():
         username = random.choice(not_following())
         profile = instagram.Profile(username, b)
         profile.follow()
