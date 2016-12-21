@@ -1,3 +1,5 @@
+import datetime
+import json
 import random
 import sys
 
@@ -32,6 +34,8 @@ def main(argv):
 
   profile = instagram.Profile(USERNAME, b)
 
+  log = open('follower_log.json', 'a')
+
   try:
     following_usernames = set(profile.following())
     follow_set = set([x.strip() for x in open(argv[1]).readlines()])
@@ -64,6 +68,13 @@ def main(argv):
         utils.delay(20)
 
       print "%s followers: %d" % (USERNAME, instagram.Profile(USERNAME, b).follower_count())
+      log_record = {
+          'username': USERNAME,
+          'followers': instagram.Profile(USERNAME, b).follower_count(),
+          'time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+      }
+      log.write(json.dumps(log_record) + '\n')
+      log.flush()
 
     b.close()
   except:
