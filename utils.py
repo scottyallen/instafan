@@ -34,7 +34,12 @@ def load_cookies(b, filename, domain):
   for line in open(filename):
     cookie = json.loads(line.strip())
     if domain in cookie['domain']:
-      b.add_cookie(cookie)
+      add_cookie(b, cookie)
+
+def add_cookie(b, cookie):
+  values = tuple(cookie.get(k, '') for k in ['name', 'value', 'path', 'domain', 'expires'])
+  script = "document.cookie = '%s=%s; path=%s; domain=%s; expires=%s';\n" % values
+  b.execute_script(script)
 
 def load_credentials(filename):
   credentials = {}

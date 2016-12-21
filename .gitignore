@@ -7,3 +7,5 @@ virtualenv
 cookies.json
 to_follow
 *_following
+screenshot.png
+ghostdriver.log

@@ -14,6 +14,7 @@ class Profile(object):
     self.browser = browser
 
   def following(self):
+    print "Getting following list..."
     utils.get(self.browser, 'https://www.instagram.com/%s/' % self.username)
     self.browser.find_element_by_partial_link_text(' following').click()
     last_count = 0
@@ -79,11 +80,13 @@ class User(object):
   def is_logged_in(self):
     utils.get(self.browser, 'https://www.instagram.com/', force=True)
     e = self.browser.find_elements_by_link_text('Profile')
-    return e
+    return len(e) > 0
 
   def current_user(self):
     utils.get(self.browser, 'https://www.instagram.com/')
     e = self.browser.find_elements_by_link_text('Profile')
+    if not e:
+      return
     return utils.extract_username(e[0].get_attribute('href'))
 
   def login(self, password):
