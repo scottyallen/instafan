@@ -4,7 +4,7 @@ node_modules
 *.pyc
 virtualenv
 *_credentials
-cookies.json
+*_cookies.json
 to_follow
 *_following
 screenshot.png

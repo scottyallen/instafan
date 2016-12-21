@@ -24,11 +24,11 @@ def main(argv):
 
   utils.get(b, 'https://www.instagram.com/')
   print "Loaded homepage"
-  utils.load_cookies(b, 'cookies.json', 'instagram.com')
+  utils.load_cookies(b, '%s_cookies.json' % USERNAME, 'instagram.com')
   print "Loaded cookies"
   user = instagram.User(USERNAME, b)
   user.maybe_login(PASSWORD)
-  utils.save_cookies(b, 'cookies.json')
+  utils.save_cookies(b, '%s_cookies.json' % USERNAME)
 
   profile = instagram.Profile(USERNAME, b)
 
