@@ -66,10 +66,9 @@ def main(argv):
       print "%s followers: %d" % (USERNAME, instagram.Profile(USERNAME, b).follower_count())
 
     b.close()
-  except Exception,e:
+  except:
     b.save_screenshot('screenshot.png')
-
-
+    raise
 
 if __name__ == '__main__':
   argv = gflags.FLAGS(sys.argv)
