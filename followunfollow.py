@@ -48,6 +48,16 @@ def main(argv):
 
     while True:
       print "Following %d out of %d" % (len(following()), len(follow_set))
+
+      print "%s followers: %d" % (USERNAME, instagram.Profile(USERNAME, b).follower_count())
+      log_record = {
+          'username': USERNAME,
+          'followers': instagram.Profile(USERNAME, b).follower_count(),
+          'time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+      }
+      log.write(json.dumps(log_record) + '\n')
+      log.flush()
+
       if random.random() < 0.6 and not_following():
         username = random.choice(not_following())
         profile = instagram.Profile(username, b)
@@ -66,15 +76,6 @@ def main(argv):
         following_usernames.remove(username)
 
         utils.delay(20)
-
-      print "%s followers: %d" % (USERNAME, instagram.Profile(USERNAME, b).follower_count())
-      log_record = {
-          'username': USERNAME,
-          'followers': instagram.Profile(USERNAME, b).follower_count(),
-          'time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-      }
-      log.write(json.dumps(log_record) + '\n')
-      log.flush()
 
     b.close()
   except:
