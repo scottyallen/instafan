@@ -93,7 +93,6 @@ class User(object):
     print 'Logging in...'
     utils.get(self.browser, 'https://www.instagram.com/accounts/login/')
 
-
     self.browser.find_element_by_name('username').send_keys(self.username)
     self.browser.find_element_by_name('password').send_keys(password)
     self.browser.find_element_by_tag_name('button').click()

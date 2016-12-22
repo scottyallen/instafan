@@ -2,14 +2,12 @@ import datetime
 import json
 import random
 import sys
+import time
 
 from selenium import webdriver
 
 import instagram
 import utils
-
-
-import sys
 
 import gflags
 
@@ -19,24 +17,24 @@ FLAGS = gflags.FLAGS
 
 def main(argv):
   USERNAME, PASSWORD = utils.load_credentials(FLAGS.credentials)
-  b = webdriver.PhantomJS()
-  b.set_window_size(1120, 550)
-  b.implicitly_wait(5)
-  print "Created webdriver"
-
-  utils.get(b, 'https://www.instagram.com/')
-  print "Loaded homepage"
-  utils.load_cookies(b, '%s_cookies.json' % USERNAME, 'instagram.com')
-  print "Loaded cookies"
-  user = instagram.User(USERNAME, b)
-  user.maybe_login(PASSWORD)
-  utils.save_cookies(b, '%s_cookies.json' % USERNAME)
-
-  profile = instagram.Profile(USERNAME, b)
-
-  log = open('follower_log.json', 'a')
-
   try:
+    b = webdriver.PhantomJS(service_args=['--ignore-ssl-errors=true', '--ssl-protocol=TLSv1'])
+    b.set_window_size(1120, 550)
+    b.implicitly_wait(10)
+    print "Created webdriver"
+
+    utils.get(b, 'https://www.instagram.com/')
+    print "Loaded homepage"
+    utils.load_cookies(b, '%s_cookies.json' % USERNAME, 'instagram.com')
+    print "Loaded cookies"
+    user = instagram.User(USERNAME, b)
+    user.maybe_login(PASSWORD)
+    utils.save_cookies(b, '%s_cookies.json' % USERNAME)
+
+    profile = instagram.Profile(USERNAME, b)
+
+    log = open('follower_log.json', 'a')
+
     following_usernames = set(profile.following())
     follow_set = set([x.strip() for x in open(argv[1]).readlines()])
 
